@@ -7,5 +7,5 @@ install:
 before_script:
   - "flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey"
 script:
-  - python pubkey/pubkey.py --help
-  - python pubkey/pubkey.py --version
+  - python pubkey/pubkey --help
+  - python pubkey/pubkey --version
