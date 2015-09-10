@@ -110,10 +110,6 @@ class PubKeyBaseController(CementBaseController):
             (['-v', '--version'], dict(action='version', version=BANNER)),
             ]
 
-    # @expose(hide=True)
-    # def default(self):
-    #     self.app.log.debug('running PubKeyBaseController.default()')
-
 
 COLORS = {
     'DEBUG':    'cyan',
