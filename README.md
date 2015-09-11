@@ -48,6 +48,12 @@ And just in case you appended the same public key more than once for whatever re
 $ sort -u ~/.ssh/authorized_keys -o ~/.ssh/authorized_keys
 ```
 
+In case you need to get access to the public key via JSON simply append /json to the GET request:
+```
+$ curl -s -S 192.168.0.36:1080/json
+{"keyfile": "/Users/xxxxx/.ssh/id_rsa.pub", "pubkey": "ssh-rsa AAAAB3NzaC1yc2EBBBBDAQABAAACAQC48EkBhgKDBP3ziBrHUCEoWIiY74OkarBVrLFkQz2MC+u5cKpE3zU7OXDI1AvtBt1Gb7mBvocztoa6r+YkPodOwjJK7N/FtLIO8yevIz2H3bClEryxb0yKmhrAB2jDlTPZoBd8gIFUdCUyAN+BVTXF9sNsyhOpVaycsUaMmocqEWmTm7Awl3PJhZq6nwaSy4Etb9Mkj0DCiDCwL9auDRbHbyw3kekQ5q7bBF7cIzQAUN2EWCTI1dMvv8KgHsrctfwfmN0Bu/Dy4vCp47UMXzlNI2wrKhYvVCKi9MU+K5bWRMmv76vHctvMnrcwvwllYDG3+ltgDhZAvIKKTrXBuMS4zGoDM7dF1Rz825olUkyd+9LgqW+tMy7tOM1edE9lBsB/rJYwtGWCH1zHmg65+W/Sfx2X5mLZ27BOHs46f5o0zyuST8LOgQNNDhuiJWLQGlsgsQ1RTPtlysgnGx300WEvc9lKMaAE9ixTSwq1R5GrNrt9PnB3jQp6BnTsxdZuOv8nicfqkSoRRBRcNEIz7wMXIzZOgTJCMu+5l3nOOijHZKfUA0AMjwr1LwCZWHnZ12k1XE5RteUqroXANs66WfEkIMpxHAL+pjqozZ7e1cRphIPVk7HskWyzLWM/DoXYnfSas6KrSNfv5TUdu45mWiKFGIEVZExsC3sQJ1Kun3fCgQ== another@email.com\n"}
+```
+
 For more options please run
 ```bash
 $ pubkey --help
