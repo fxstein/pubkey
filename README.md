@@ -6,7 +6,7 @@ Need to setup private/public key server connections for password less ssh commun
 INSTALLATION
 ------------
 ```bash
-$ [sudo] pip install pubkey
+$ [sudo] pip install --upgrade pubkey
 ```
 The module is hosted on PyPi: https://pypi.python.org/pypi/pubkey
 
@@ -43,6 +43,11 @@ $ cat ~/.ssh/authorized_keys
 ```
 You should see the content of the public key appended at the end of the file (which might be the very first entry in case authorized_keys did not exist before)
 
+And just in case you appended the same public key more than once for whatever reason no harm is done. Simple sort the file and remove duplicates by running
+```
+$ sort -u ~/.ssh/authorized_keys -o ~/.ssh/authorized_keys
+```
+
 For more options please run
 ```bash
 $ pubkey --help
@@ -66,16 +71,17 @@ on the various hosts that require the key to be added to their trusted keys.
 Done.
 
 optional arguments:
-  -h, --help     show this help message and exit
-  --debug        toggle debug output
-  --quiet        suppress all output
-  -a, --auto     Auto detect IP address to bind REST server to.
-  --host HOST    IP address to bind REST server to. Default is <localhost> and
-                 therefore NOT visible on the network.
-  --key KEYFILE  Keyfile of public key. Commonly ~/.ssh/id_rsa.pub Only public
-                 key filenames [.pub] allowed.
-  --port PORT    Port to be used by REST server. Default is 1080.
-  -v, --version  show the program's version number and exit
+ -h, --help     show this help message and exit
+ --debug        toggle debug output
+ --quiet        suppress all output
+ -a, --auto     Auto detect IP address to bind REST server to.
+ -o, --once     Reply to only 1 request then quit.
+ --host HOST    IP address to bind REST server to. Default is <localhost> and
+                therefore NOT visible on the network.
+ --key KEYFILE  Keyfile of public key. Commonly ~/.ssh/id_rsa.pub Only public
+                key filenames [.pub] allowed.
+ --port PORT    Port to be used by REST server. Default is 1080.
+ -v, --version  show program's version number and exit
 
 Report bugs, submit feature requests, and/or contribute code over at:
 https://github.com/fxstein/pubkey

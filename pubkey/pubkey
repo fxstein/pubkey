@@ -58,6 +58,9 @@ https://github.com/fxstein/pubkey\n
 HELP_AUTO = """
 Auto detect IP address to bind REST server to.
 """
+HELP_ONCE = """
+Reply to only 1 request then quit.
+"""
 HELP_HOST = """
 IP address to bind REST server to. Default is <%s> and
 therefore NOT visible on the network.
@@ -78,6 +81,7 @@ defaults['pubkey']['keyfile'] = DEFAULT_KEYFILE
 defaults['pubkey']['host'] = DEFAULT_HOST
 defaults['pubkey']['port'] = DEFAULT_PORT
 defaults['pubkey']['auto'] = False
+defaults['pubkey']['once'] = False
 
 
 class PubKeyConfigHandler(ConfigParserConfigHandler):
@@ -100,6 +104,8 @@ class PubKeyBaseController(CementBaseController):
         arguments = [
             (['-a', '--auto'],
              dict(action='store_true', help=HELP_AUTO, dest='auto')),
+            (['-o', '--once'],
+             dict(action='store_true', help=HELP_ONCE, dest='once')),
             (['--host'],
              dict(action='store', help=HELP_HOST % DEFAULT_HOST, dest='host')),
             (['--key'],
@@ -188,7 +194,7 @@ class PubKeyApp(CementApp):
                     for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]]
                     [0][1])
 
-        self._webapp = web.Application(loop=loop, logger=None)
+        self._webapp = web.Application(loop=loop)
 
         # Handle incoming events
         self._webapp.router.add_route('GET', '/', self.get_pubkey)
@@ -200,11 +206,11 @@ class PubKeyApp(CementApp):
             self._webapp_srv = yield from self._loop.create_server(
                 self._webapp_handler, host, port)
 
-            self.log.info("pubkey server started at http://%s:%s" %
+            self.log.info('pubkey server started at http://%s:%s' %
                           (host, port))
 
         except Exception as e:
-            self.log.fatal("Error starting pubkey at http://%s:%s" %
+            self.log.fatal('Error starting pubkey at http://%s:%s' %
                            (host, port))
             self.log.fatal(e)
             self._loop.stop()
@@ -212,6 +218,9 @@ class PubKeyApp(CementApp):
         if host in ['localhost', '127.0.0.1']:
             self.log.warn('%s not reachable outside local host.' % host)
             self.log.warn('Provide valid ip or hostname or use --auto')
+
+        if self.config.get('pubkey', 'once') is True:
+            self.log.info('Replying exactly once. Exiting after 1 request.')
 
         print('Remote host command: \n%s' % CMD % (host, port))
 
@@ -239,6 +248,9 @@ class PubKeyApp(CementApp):
 
         self.log.info('Request: %s' % request)
 
+        if self.config.get('pubkey', 'once') is True:
+            self._loop.stop()
+
         return web.Response(body=output.encode('utf-8'))
 
     @asyncio.coroutine
@@ -249,6 +261,9 @@ class PubKeyApp(CementApp):
                   'pubkey': self._pubkey}
 
         self.log.info('Request: %s' % request)
+
+        if self.config.get('pubkey', 'once') is True:
+            self._loop.stop()
 
         return web.Response(body=json.dumps(output,
                                             sort_keys=True).encode('utf-8'))
