@@ -31,6 +31,7 @@ curl -s -S %s:%s >> ~/.ssh/authorized_keys
 DEFAULT_KEYFILE = """~/.ssh/id_rsa.pub"""
 DEFAULT_HOST = """localhost"""
 DEFAULT_PORT = 1080
+DEFAULT_TIME = 300  # 300 sec or 5 min before auto shutdown
 
 DESCRIPTION = """
 pubkey - Public Key distribution made easy.
@@ -51,6 +52,29 @@ Done.
 
 EPILOG = """
 
+Examples:
+
+$ pubkey --auto
+
+  Run pubkey in host auto detection mode. Should detect the correct server IP
+  for the local host on the local network in most cases. If not use --host
+  option to override with desired hostname or IP.
+  Timeout after 300 seconds by default
+
+$ pubkey --host 10.1.1.124 --port 6080 --time 0
+
+  Run pubkey and open REST server at 10.1.1.124:6080 and no timeout.
+
+$ pubkey --auto --once
+
+  Run pubkey in host auto detection mode and finish after 1 request or the
+  default of 300s - whichever comes first
+
+$ pubkey -auto -n 10 -t 600
+
+  Run pubkey in auto detection mode and finish after 10 requests or 600 seconds
+  whichever comes first
+
 Report bugs, submit feature requests, and/or contribute code over at:
 https://github.com/fxstein/pubkey\n
 """
@@ -64,6 +88,12 @@ Reply to only 1 request then quit.
 HELP_HOST = """
 IP address to bind REST server to. Default is <%s> and
 therefore NOT visible on the network.
+"""
+HELP_NUM = """
+Reply to only (num) requests then quit. 0 for no limit. Deafult is 0 (no limit)
+"""
+HELP_TIME = """
+Timeout ater (time) seconds then quit. 0 for no timeout. Default is 300s (5min)
 """
 HELP_KEYFILE = """
 Keyfile of public key. Commonly %s
@@ -82,6 +112,8 @@ defaults['pubkey']['host'] = DEFAULT_HOST
 defaults['pubkey']['port'] = DEFAULT_PORT
 defaults['pubkey']['auto'] = False
 defaults['pubkey']['once'] = False
+defaults['pubkey']['num'] = 0
+defaults['pubkey']['time'] = DEFAULT_TIME
 
 
 class PubKeyConfigHandler(ConfigParserConfigHandler):
@@ -104,15 +136,19 @@ class PubKeyBaseController(CementBaseController):
         arguments = [
             (['-a', '--auto'],
              dict(action='store_true', help=HELP_AUTO, dest='auto')),
-            (['-o', '--once'],
-             dict(action='store_true', help=HELP_ONCE, dest='once')),
             (['--host'],
              dict(action='store', help=HELP_HOST % DEFAULT_HOST, dest='host')),
             (['--key'],
              dict(action='store', help=HELP_KEYFILE % DEFAULT_KEYFILE,
              dest='keyfile')),
+            (['-n', '--num'],
+             dict(action='store', help=HELP_NUM, dest='num')),
+            (['-o', '--once'],
+             dict(action='store_true', help=HELP_ONCE, dest='once')),
             (['--port'],
              dict(action='store', help=HELP_PORT % DEFAULT_PORT, dest='port')),
+            (['-t', '--time'],
+             dict(action='store', help=HELP_TIME, dest='time')),
             (['-v', '--version'], dict(action='version', version=BANNER)),
             ]
 
@@ -150,6 +186,41 @@ class PubKeyApp(CementApp):
 
         hook.register('post_argument_parsing', self._post_argument_parsing)
         hook.register('pre_close', self._pre_close)
+
+    def _setlimits(self):
+        self.log.debug('running _setlimits()')
+
+        self._numcalls = 0
+        self._maxcalls = None
+
+        if self.config.get('pubkey', 'once') is True:
+            self._maxcalls = 1
+        elif (int)(self.config.get('pubkey', 'num')) > 0:
+            self._maxcalls = (int)(self.config.get('pubkey', 'num'))
+
+        if self._maxcalls is not None:
+            self.log.info('Limit to %s requests' % self._maxcalls)
+
+        self.log.debug('Num calls: %s' % self._maxcalls)
+
+        if (float)(self.config.get('pubkey', 'time')) > 0:
+            self.log.info('Timeout after %ss' %
+                          self.config.get('pubkey', 'time'))
+            self._loop.call_later((float)(self.config.get('pubkey', 'time')),
+                                  self._timeout)
+
+    def _checklimits(self):
+        self.log.debug('running _checklimits()')
+
+        self._numcalls = self._numcalls + 1
+
+        if self._maxcalls is not None:
+            if self._numcalls >= self._maxcalls:
+                self._loop.stop()
+
+    def _timeout(self):
+        self.log.debug('running _timeout()')
+        self._loop.stop()
 
     def _post_argument_parsing(self, app):
         self.log.debug('running _post_argument_parsing()')
@@ -206,11 +277,11 @@ class PubKeyApp(CementApp):
             self._webapp_srv = yield from self._loop.create_server(
                 self._webapp_handler, host, port)
 
-            self.log.info('pubkey server started at http://%s:%s' %
+            self.log.info('pubkey REST server started at http://%s:%s' %
                           (host, port))
 
         except Exception as e:
-            self.log.fatal('Error starting pubkey at http://%s:%s' %
+            self.log.fatal('Error starting pubkey REST server at http://%s:%s' %
                            (host, port))
             self.log.fatal(e)
             self._loop.stop()
@@ -221,6 +292,9 @@ class PubKeyApp(CementApp):
 
         if self.config.get('pubkey', 'once') is True:
             self.log.info('Replying exactly once. Exiting after 1 request.')
+
+        # Set various execution limits from arguments or config settings
+        self._setlimits()
 
         print('Remote host command: \n%s' % CMD % (host, port))
 
@@ -248,8 +322,7 @@ class PubKeyApp(CementApp):
 
         self.log.info('Request: %s' % request)
 
-        if self.config.get('pubkey', 'once') is True:
-            self._loop.stop()
+        self._checklimits()
 
         return web.Response(body=output.encode('utf-8'))
 
@@ -262,8 +335,7 @@ class PubKeyApp(CementApp):
 
         self.log.info('Request: %s' % request)
 
-        if self.config.get('pubkey', 'once') is True:
-            self._loop.stop()
+        self._checklimits()
 
         return web.Response(body=json.dumps(output,
                                             sort_keys=True).encode('utf-8'))
@@ -277,4 +349,6 @@ with PubKeyApp() as app:
     try:
         app.run_forever()
     except (KeyboardInterrupt, SystemExit, CaughtSignal):
-        app.log.info('Shutting down pubkey REST server')
+        pass
+
+    app.log.info('Shutting down pubkey REST server')
