@@ -8,12 +8,18 @@ Need to setup private/public key server connections for password less ssh commun
 INSTALLATION
 ------------
 ```bash
-$ [sudo] pip install
+$ [sudo] pip install pubkey
 or
 $ [sudo] pip install --upgrade pubkey
 # Upgrades older versions of the tool
 ```
 The module is hosted on PyPi: https://pypi.python.org/pypi/pubkey
+
+To install from github clone the repository onto your local machine then run
+```bash
+$ [sudo] setup.py install
+# From the repository root directory e.g. /Users/xxxxx/pubkey
+```
 
 USAGE
 -----
