@@ -47,7 +47,7 @@ from pubkey import __version__, __author__, __email__, __license__
 # For development versions add current timestamp of build. We could use git
 # but that would required a commit for every change before being able to test
 # the build locally
-if __version__.find('dev'):
+if __version__.find('dev') is not -1:
     import time
     __version__ = __version__ + time.strftime('%Y%m%d%H%M%S')
 
@@ -59,7 +59,7 @@ setup(
     # https://packaging.python.org/en/latest/single_source_version.html
     version=__version__,  # noqa
 
-    description='pubkey - Public Key Distribution made simple.',
+    description='Public Key Distribution made simple.',
     long_description=long_description,
 
     # The project's main homepage.
