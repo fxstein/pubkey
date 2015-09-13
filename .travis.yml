@@ -4,7 +4,6 @@ python:
   - "pypy3"
 os:
   - linux
-  - osx
 install:
   - pip install flake8
   - pip install coveralls
