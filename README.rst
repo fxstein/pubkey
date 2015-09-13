@@ -1,5 +1,7 @@
 pubkey
 ======
+[![PyPI version](https://img.shields.io/pypi/v/pubkey.svg)](https://pypi.python.org/pypi/pubkey)
+[![PyPI downloads](https://img.shields.io/pypi/dm/pubkey.svg)](https://pypi.python.org/pypi/pubkey)
 [![Build Status](https://travis-ci.org/fxstein/pubkey.svg?branch=master)](https://travis-ci.org/fxstein/pubkey)
 
 Need to setup private/public key server connections for password less ssh communications? Tired of manually having to copy around public keys? pubkey creates a RESTful endpoint and replies with the public key you want to share. Default is plain text so you can use curl to download and apply the public key with a single step. Optionally the key can be wrapped in a json document for other usecases.

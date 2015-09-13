@@ -1,13 +1,33 @@
-A sample Python project
-=======================
+pubkey
+======
 
-This is the description file for the project.
+Need to setup private/public key server connections for e.g. password less ssh
+communications? Tired of manually having to copy around public keys?
 
-The file should use UTF-8 encoding and be written using ReStructured Text. It
-will be used to generate the project webpage on PyPI, and should be written for
-that purpose.
+pubkey creates a RESTful endpoint and replies with the public key you want to
+share. Default is plain text so you can use curl to download and apply the
+public key with a single step. Optionally the key can be wrapped in a json
+document for other usecases.
 
-Typical contents for this file would include an overview of the project, basic
-usage examples, etc. Generally, including the project changelog in here is not
-a good idea, although a simple "What's New" section for the most recent version
-may be appropriate.
+Simply run the following command on the source server:
+
+$ pubkey --auto
+# Starts the pubkey server with default settings and IP auto detection
+
+INFO: pubkey file used: /Users/xxxxx/.ssh/id_rsa.pub
+INFO: pubkey server started at http://192.168.0.36:1080
+Remote host command:
+
+curl -s -S 192.168.0.36:1080 >> ~/.ssh/authorized_keys
+
+Press ctrl-C to stop.
+
+Then copy the curl statement provide above to the terminal of the server you
+would like to add the public key to:
+
+curl -s -S 192.168.0.36:1080 >> ~/.ssh/authorized_keys
+
+Done. If you did not get an error (e.g. unreachable host) you are all set.
+
+For more information head over to github:
+https://github.com/fxstein/pubkey
