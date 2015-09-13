@@ -1,0 +1,4 @@
+aiohttp==0.17.2
+asyncio==3.4.3
+cement==2.6.2
+colorlog==2.6.0
