@@ -2,7 +2,6 @@ language: python
 python:
   - "3.4"
 install:
-  - pip install -r dependencies.txt
   - pip install flake8
 before_script:
   - "flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey"
@@ -10,5 +9,5 @@ script:
   - python setup.py install
   - pubkey --help
   - pubkey --version
-  - pubkey --time 1 --key ./tests/id_rsa.pub
-  - pubkey --auto --time 1 --key ./tests/id_rsa.pub
+  - pubkey --debug --time 1 --key ./tests/id_rsa.pub
+  - pubkey --debug --auto --time 1 --key ./tests/id_rsa.pub
