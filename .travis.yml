@@ -22,4 +22,5 @@ deploy:
     only:
       - deploy-test
       - feature-travis
+deploy:
   - pubkey --version
