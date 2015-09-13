@@ -1,7 +1,6 @@
 language: python
 python:
   - "3.4"
-  - "pypy3"
 os:
   - linux
 install:
