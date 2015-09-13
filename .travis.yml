@@ -10,4 +10,5 @@ script:
   - python setup.py install
   - pubkey --help
   - pubkey --version
-  - pubkey --auto --time 1
+  - pubkey --time 1 --key ./tests/id_rsa.pub
+  - pubkey --auto --time 1 --key ./tests/id_rsa.pub
