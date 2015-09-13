@@ -21,7 +21,7 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-from pubkey.version import __author__, __copyright__, __version__, __license__  # noqa
+from pubkey import __author__, __copyright__, __version__, __license__  # noqa
 
 import os
 import json

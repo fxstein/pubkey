@@ -41,12 +41,11 @@ if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and
     print("pubkey requires Python 3.4 or later.")
     sys.exit(1)
 
-with open('pubkey/version.py') as f:
-    exec(f.read())
+from pubkey import __version__, __author__, __email__, __license__
 
-if __version__.find('dev'):  # noqa
+if __version__.find('dev'):
     import time
-    __version__ = __version__ + (str)((int)(time.time()))  # noqa
+    __version__ = __version__ + (str)((int)(time.time()))
 
 setup(
     name='pubkey',
@@ -63,11 +62,11 @@ setup(
     url='https://github.com/fxstein/pubkey',
 
     # Author details
-    author='Oliver Ratzesberger',
-    author_email='oliver(at)ratzesberger(dot)com',
+    author=__author__,
+    author_email=__email__,
 
     # Choose your license
-    license='MIT',
+    license=__license__,
 
     # See https://pypi.python.org/pypi?%3Aaction=list_classifiers
     classifiers=[

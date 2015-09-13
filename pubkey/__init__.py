@@ -21,3 +21,8 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
+__author__ = 'Oliver Ratzesberger <https://github.com/fxstein>'
+__email__ = 'Oliver(dot)Ratzesberger(at)gmail(dot)com'
+__copyright__ = 'Copyright (C) 2015 Oliver Ratzesberger'
+__license__ = 'MIT'
+__version__ = '0.9.0dev'
