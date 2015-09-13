@@ -10,4 +10,4 @@ script:
   - python setup.py install
   - pubkey --help
   - pubkey --version
-  - pubkey --auto -time 1
+  - pubkey --auto --time 1
