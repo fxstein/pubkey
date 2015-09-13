@@ -21,9 +21,9 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-from pubkey import __author__, __copyright__, __version__, __license__  # noqa
 
 import os
+import sys
 import json
 import socket
 import configparser
@@ -36,6 +36,10 @@ from cement.core import hook
 from cement.core.exc import CaughtSignal
 from cement.ext.ext_colorlog import ColorLogHandler
 from cement.ext.ext_configparser import ConfigParserConfigHandler
+
+here = os.path.abspath(os.path.dirname(__file__))
+sys.path.insert(0, here)
+from pubkey import __author__, __copyright__, __version__, __license__  # noqa
 
 BANNER = """
 pubkey v%s

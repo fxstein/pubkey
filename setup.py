@@ -22,17 +22,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
 import sys
 # Always prefer setuptools over distutils
 from setuptools import setup, find_packages
 # To use a consistent encoding
 from codecs import open
-from os import path
 
-here = path.abspath(path.dirname(__file__))
+here = os.path.abspath(os.path.dirname(__file__))
 
 # Get the long description from the relevant file
-with open(path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
+with open(os.path.join(here, 'DESCRIPTION.rst'), encoding='utf-8') as f:
     long_description = f.read()
 
 # Make sure correct version of python is being used.
@@ -41,6 +41,7 @@ if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and
     print("pubkey requires Python 3.4 or later.")
     sys.exit(1)
 
+sys.path.insert(0, os.path.abspath('pubkey'))
 from pubkey import __version__, __author__, __email__, __license__
 
 if __version__.find('dev'):
