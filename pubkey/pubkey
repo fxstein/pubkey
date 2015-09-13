@@ -37,8 +37,6 @@ from cement.core.exc import CaughtSignal
 from cement.ext.ext_colorlog import ColorLogHandler
 from cement.ext.ext_configparser import ConfigParserConfigHandler
 
-here = os.path.abspath(os.path.dirname(__file__))
-sys.path.insert(0, here)
 from pubkey import __author__, __copyright__, __version__, __license__  # noqa
 
 BANNER = """

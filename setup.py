@@ -44,9 +44,12 @@ if sys.version_info[0] < 3 or (sys.version_info[0] == 3 and
 sys.path.insert(0, os.path.abspath('pubkey'))
 from pubkey import __version__, __author__, __email__, __license__
 
+# For development versions add current timestamp of build. We could use git
+# but that would required a commit for every change before being able to test
+# the build locally
 if __version__.find('dev'):
     import time
-    __version__ = __version__ + (str)((int)(time.time()))
+    __version__ = __version__ + time.strftime('%Y%m%d%H%M%S')
 
 setup(
     name='pubkey',
