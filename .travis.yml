@@ -21,3 +21,5 @@ deploy:
   branches:
     only:
       - deploy-test
+      - feature-travis
+  - pubkey --version
