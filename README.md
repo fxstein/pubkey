@@ -1,4 +1,6 @@
-# pubkey
+pubkey
+======
+
 [![Build Status](https://travis-ci.org/fxstein/pubkey.svg?branch=master)](https://travis-ci.org/fxstein/pubkey)
 
 Need to setup private/public key server connections for password less ssh communications? Tired of manually having to copy around public keys? pubkey creates a RESTful endpoint and replies with the public key you want to share. Default is plain text so you can use curl to download and apply the public key with a single step. Optionally the key can be wrapped in a json document for other usecases.
@@ -6,12 +8,18 @@ Need to setup private/public key server connections for password less ssh commun
 INSTALLATION
 ------------
 ```bash
-$ [sudo] pip install
+$ [sudo] pip install pubkey
 or
 $ [sudo] pip install --upgrade pubkey
 # Upgrades older versions of the tool
 ```
 The module is hosted on PyPi: https://pypi.python.org/pypi/pubkey
+
+To install from github clone the repository onto your local machine then run
+```bash
+$ [sudo] setup.py install
+# From the repository root directory e.g. /Users/xxxxx/pubkey
+```
 
 USAGE
 -----
