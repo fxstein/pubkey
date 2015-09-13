@@ -14,10 +14,10 @@ before_script:
 script:
   - python setup.py install
   - python setup.py sdist
-  - coverage run pubkey --help
-  - coverage run pubkey --version
-  - coverage run pubkey --debug --time 1 --key ./tests/id_rsa.pub
-  - coverage run pubkey --debug --auto --time 1 --key ./tests/id_rsa.pub
+  - coverage run --source=pubkey pubkey.py --help
+  - coverage run --source=pubkey pubkey.py --version
+  - coverage run --source=pubkey pubkey.py --debug --time 1 --key ./tests/id_rsa.pub
+  - coverage run --source=pubkey pubkey.py --debug --auto --time 1 --key ./tests/id_rsa.pub
 after_success:
   - coveralls
 deploy:
