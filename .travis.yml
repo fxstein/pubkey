@@ -25,3 +25,12 @@ deploy:
   server: $pypi_test
   on:
     branch: feature-travis
+    tags: ture
+deploy:
+  provider: pypi
+  user: $pypi_test_user
+  password: $pypi_test_pass
+  server: $pypi_test
+  on:
+    branch: deploy-test
+    tags: true
