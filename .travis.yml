@@ -1,13 +1,13 @@
 language: python
 python:
-  - "3.4"
+  - '3.4'
 os:
   - linux
 install:
   - pip install flake8
   - pip install coveralls
 before_script:
-  - "flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey"
+  - flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey
 script:
   - python setup.py install
   - python setup.py sdist
@@ -18,7 +18,9 @@ script:
 after_success:
   - coveralls
 deploy:
-  branches:
-    only:
-      - deploy-test
-      - feature-travis
+  provider: pypi
+  user: $PYPI-TEST_USER
+  password: $PYPI-TEST_PASS
+  server: https://testpypi.python.org/pypi
+  on:
+    branch: feature-travis
