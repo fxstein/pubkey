@@ -34,3 +34,11 @@ deploy:
   on:
     branch: deploy-test
     tags: true
+deploy:
+  provider: pypi
+  user: $pypi_user
+  password: $pypi_pass
+  server: $pypi
+  on:
+    branch: deploy
+    tags: true
