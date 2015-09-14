@@ -4,6 +4,7 @@ python:
 os:
   - linux
 install:
+  - pip install --upgrade pip
   - pip install flake8
   - pip install coveralls
 before_script:
@@ -19,7 +20,7 @@ after_success:
   - coveralls
 deploy:
   provider: pypi
-  user: $PYPI-TEST_USER
+  user: fxstein
   password: $PYPI-TEST_PASS
   server: https://testpypi.python.org/pypi
   on:
