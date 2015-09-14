@@ -20,8 +20,8 @@ after_success:
   - coveralls
 deploy:
   provider: pypi
-  user: fxstein
-  password: $PYPI-TEST_PASS
-  server: https://testpypi.python.org/pypi
+  user: $pypi_test_user
+  password: $pypi_test_pass
+  server: $pypi_test
   on:
     branch: feature-travis
