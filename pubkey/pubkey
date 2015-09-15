@@ -23,7 +23,6 @@
 # SOFTWARE.
 
 import os
-import sys
 import json
 import socket
 import configparser
@@ -113,7 +112,7 @@ HELP_NUM = """
 Reply to only (num) requests then quit. 0 for no limit. Deafult is 0 (no limit)
 """
 HELP_TIME = """
-Timeout ater (time) seconds then quit. 0 for no timeout. Default is 300s (5min)
+Timeout after (time) seconds then quit. 0 for no timeout. Default is 300s (5min)
 """
 HELP_KEYFILE = """
 Keyfile of public key. Commonly %s
