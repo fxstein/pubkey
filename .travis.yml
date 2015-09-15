@@ -25,7 +25,7 @@ deploy:
   server: $pypi_test
   on:
     branch: feature-travis
-    tags: ture
+    tags: true
 deploy:
   provider: pypi
   user: $pypi_test_user
