@@ -1,13 +1,33 @@
 language: python
 python:
-  - "3.4"
+  - '3.4'
+os:
+  - linux
 install:
+  - pip install --upgrade pip
   - pip install flake8
+  - pip install coveralls
 before_script:
-  - "flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey"
+  - flake8 --show-source --max-line-length=80 --statistics --builtins=_ pubkey
 script:
   - python setup.py install
+  - python setup.py sdist
   - pubkey --help
   - pubkey --version
   - pubkey --debug --time 1 --key ./tests/id_rsa.pub
   - pubkey --debug --auto --time 1 --key ./tests/id_rsa.pub
+after_success:
+  - coveralls
+deploy:
+  - provider: pypi
+    user: $pypi_test_user
+    password: $pypi_test_pass
+    server: $pypi_test
+    on:
+      branch: deploy-test
+  - provider: pypi
+    user: $pypi_user
+    password: $pypi_pass
+    server: $pypi
+    on:
+      branch: deploy
