@@ -11,6 +11,9 @@ share. Default is plain text so you can use curl to download and apply the
 public key with a single step. Optionally the key can be wrapped in a json
 document for other use-cases.
 
+For instructions on how to best generate SSH keys head on over to
+[Github Articles: Generating SSH Keys](https://help.github.com/articles/generating-ssh-keys/)
+
 INSTALLATION
 ------------
 
