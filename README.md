@@ -6,10 +6,17 @@ pubkey
 Need to setup private/public key server connections for password less ssh
 communications? Tired of manually having to copy around public keys?
 
-pubkey creates a RESTful endpoint and replies with the public key you want to
-share. Default is plain text so you can use curl to download and apply the
+`pubkey` creates a RESTful endpoint and replies with the public key you want
+to share. Default is plain text so you can use curl to download and apply the
 public key with a single step. Optionally the key can be wrapped in a json
 document for other use-cases.
+
+`pubkey` enables a pull model where remote servers can pull a public key
+into their configurations without needing access to the source system of the
+key.
+
+If you are looking for a push type model you might want to consider
+`ssh-copy-id` it copies the public key from a local host to a target host.
 
 For instructions on how to best generate SSH keys head on over to
 [Github Articles: Generating SSH Keys](https://help.github.com/articles/generating-ssh-keys/)
