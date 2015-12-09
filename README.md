@@ -40,6 +40,15 @@ $ [sudo] setup.py install
 # From the repository root directory e.g. /Users/xxxxx/pubkey
 ```
 
+TRAVIS CI DEPLOY SETUP
+---------------
+
+If you wish to deploy this from your own fork, you will need to set up TravisCI for handling the deployment. When you visit your profile at https://travis-ci.org/profile and re-sync to get the project to appear in the list, click on the cog wheel to visit your particular settings. Once here we have a few settings we need to configure: `pypi_test_user`, `pypi_test_pass`, `pypi_test`, `pypi_user`, `pypi_pass`, `pypi`.
+
+![screen shot 2015-12-09 at 12 42 16 pm](https://cloud.githubusercontent.com/assets/45141/11698353/0396fefa-9e73-11e5-98eb-ccc1bcd2d8cd.png)
+
+As listed above, all of these items need to be given a value. For passwords, ensure the button **Display value in build log** is not selected.
+
 USAGE
 -----
 
