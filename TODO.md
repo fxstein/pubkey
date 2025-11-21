@@ -3,6 +3,8 @@
 > **⚠️ IMPORTANT: This file should ONLY be edited through the `todo.ai` script!**
 
 ## Tasks
+- [ ] **#41** Evaluate zero-dependency implementation feasibility `#dependencies`
+  > PRIORITY TASK: Determine if pubkey can work with ZERO external deps for Python 3.10+. Options: (1) Replace cement→argparse+logging, colorlog→logging (stdlib) - keeps only aiohttp. (2) Replace aiohttp→http.server+asyncio (stdlib) - ZERO deps. Document trade-offs: aiohttp is mature/simple vs stdlib is more complex but zero deps.
 - [ ] **#40** Adopt .cursor/rules/ structure from ascii-guard for release automation `#project-structure`
   > Copy .cursor/rules/ from ascii-guard. Key rules: release workflow automation, version management, PyPI publishing guidelines, GitHub Actions integration. These rules guide AI agents through the entire release process.
 - [ ] **#39** Update shebang in pubkey script to modern Python `#modernization`
@@ -40,7 +42,7 @@
 - [ ] **#10** Create GitHub Actions workflow for testing `#ci-cd`
 - [ ] **#9** Add proper testing framework (pytest) `#testing`
 - [ ] **#8** Update dependency versions to latest compatible releases `#dependencies`
-  > Current deps: asyncio>=3.4.0, aiohttp>=0.17.0, cement>=2.6.0, colorlog>=2.6.0 - All from 2015, need major updates
+  > Current deps from 2015: asyncio>=3.4.0 (stdlib✅), aiohttp>=0.17.0, cement>=2.6.0, colorlog>=2.6.0. NEW GOAL: Minimize to 0-1 external deps. Replace cement→argparse+logging (stdlib). Replace colorlog→logging (stdlib). Evaluate: keep aiohttp or replace with http.server+asyncio (stdlib)?
 - [ ] **#7** Update Python version support (3.11+, drop 3.4/3.5) `#modernization`
 - [ ] **#6** Migrate from Travis CI to GitHub Actions `#ci-cd`
   > Replace .travis.yml with .github/workflows/. See ascii-guard for examples: test.yml, release.yml workflows
@@ -58,7 +60,7 @@
 
 ---
 
-**Last Updated:** Fri Nov 21 18:34:42 CET 2025
+**Last Updated:** Fri Nov 21 18:41:58 CET 2025
 **Repository:** https://github.com/fxstein/pubkey  
 **Maintenance:** Use `todo.ai` script only
 
